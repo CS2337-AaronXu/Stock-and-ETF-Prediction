@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-df = pd.read_csv(r'C:\Users\aaron\Downloads\AAPL.csv')
+df = pd.read_csv(r'C:\Users\aaron\Downloads\AAPL.csv') //change file path to personal file path
 df.head(252)
 
 plt.figure(figsize = (18,9))
