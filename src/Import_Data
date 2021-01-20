@@ -2,3 +2,10 @@ import pandas as pd
 import os
 df = pd.read_csv(r'C:\Users\aaron\Downloads\AAPL.csv')
 df.head(252)
+
+plt.figure(figsize = (18,9))
+plt.plot(range(df.shape[0]),(df['Low']+df['High'])/2.0)
+plt.xticks(range(0,df.shape[0],10),df['Date'].loc[::500],rotation=45)
+plt.xlabel('Date',fontsize=18)
+plt.ylabel('Mid Price',fontsize=18)
+plt.show()
