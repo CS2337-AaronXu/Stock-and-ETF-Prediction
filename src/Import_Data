@@ -1,11 +1,20 @@
+import yahoo_finance as yahoo
 import pandas as pd
-import os
-df = pd.read_csv(r'C:\Users\aaron\Downloads\AAPL.csv') //change file path to personal file path
-df.head(252)
+import numpy as np
 
-plt.figure(figsize = (18,9))
-plt.plot(range(df.shape[0]),(df['Low']+df['High'])/2.0)
-plt.xticks(range(0,df.shape[0],10),df['Date'].loc[::500],rotation=45)
-plt.xlabel('Date',fontsize=18)
-plt.ylabel('Mid Price',fontsize=18)
-plt.show()
+def retrieveStockData(tickerSymbol, startDate, endDate, fileName):
+    try:
+        print('loading data' + tickerSymbol + ' ...')
+        historical = yahoo.Share(tickerSymbol).get_historical(startDate, endDate)
+
+        data = pd.DataFrame(historical)
+        data = data.drop(['Open', 'Close', 'High', 'Low', 'Volume', 'Symbol', 'Date'], axis=1)
+
+        data['Adj_Close'].to_csv(fileName, index=False)
+
+        print('Wholesale customers dataset has {} samples with {} features each.'.format(*data.shape))
+        return data
+    except:
+        print('Dataset not loaded')
+
+retrieveStockData('AMZN', '1997-05-15', '2016-04-27', 'C:\Users\aaron\PyCharmProjects\pythonProject\data\lstm\AMZN.csv')
