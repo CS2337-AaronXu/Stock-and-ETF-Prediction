@@ -1,20 +1,13 @@
-import yahoo_finance as yahoo
-import pandas as pd
-import numpy as np
+import yfinance as yf
 
 def retrieveStockData(tickerSymbol, startDate, endDate, fileName):
     try:
-        print('loading data' + tickerSymbol + ' ...')
-        historical = yahoo.Share(tickerSymbol).get_historical(startDate, endDate)
+        data = yf.Ticker(tickerSymbol)
+        historical = data.history(period="5y")
 
-        data = pd.DataFrame(historical)
-        data = data.drop(['Open', 'Close', 'High', 'Low', 'Volume', 'Symbol', 'Date'], axis=1)
+        print(historical)
 
-        data['Adj_Close'].to_csv(fileName, index=False)
-
-        print('Wholesale customers dataset has {} samples with {} features each.'.format(*data.shape))
-        return data
+        data_df = yf.download(tickerSymbol, start = startDate, end = endDate)
+        data_df.to_csv(fileName)
     except:
         print('Dataset not loaded')
-
-retrieveStockData('AMZN', '1997-05-15', '2016-04-27', 'C:\Users\aaron\PyCharmProjects\pythonProject\data\lstm\AMZN.csv')
