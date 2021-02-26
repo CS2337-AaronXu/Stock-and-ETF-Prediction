@@ -1,5 +1,3 @@
-import os
-import warnings
 import numpy as np
 import time
 from numpy import newaxis
@@ -9,7 +7,7 @@ from keras.models import Sequential, load_model
 
 def load_data(filename, seq_len, normalise_window):
     f = open(filename, 'rb').read()
-    data = f.decode().split('\n')
+    data = f.decode().split('\r')
 
     sequence_length = seq_len + 1
     result = []
